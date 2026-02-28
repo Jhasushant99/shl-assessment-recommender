@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.env
+data/faiss.index
+data/index_meta.json
+data/assessments.json
+data/eval_results.json
+# Keep predictions.csv (submission file)
+# Keep dataset
+*.DS_Store
