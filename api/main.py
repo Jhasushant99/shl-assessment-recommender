@@ -1,5 +1,6 @@
 
-
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import logging
 from contextlib import asynccontextmanager
 from typing import Optional
@@ -33,9 +34,14 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def serve_frontend():
+    return FileResponse("static/index.html")
 
 
-# ── Request / Response Models ──────────────────────────────────────────────────
+
 
 class RecommendRequest(BaseModel):
     query: str = Field(..., description="Natural language query or job description text.")
@@ -56,7 +62,7 @@ class RecommendResponse(BaseModel):
     recommended_assessments: list[AssessmentResult]
 
 
-# ── Endpoints ──────────────────────────────────────────────────────────────────
+
 
 @app.get("/health")
 def health_check():
